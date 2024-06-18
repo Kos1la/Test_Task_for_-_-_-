@@ -3,16 +3,18 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import prisma from "./prismaClient.js";
+import taskRoutes from "./routes/taskRoutes.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors()); // Вызываем cors как функцию
+app.use(cors());
 
 app.use(express.json());
 app.use('/auth', authRoutes);
+app.use('/tasks', taskRoutes)
 
 app.get('/test-db', async (req, res) => {
     try {
