@@ -1,27 +1,25 @@
 version: '3.8'
-
 services:
   db:
-    image: postgres
+    image: postgres:13
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
       POSTGRES_DB: node_postgres
-    ports:
-      - "5432:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
-
+      - pgdata:/var/lib/postgresql/data
   app:
     build: .
-    environment:
-      DATABASE_URL: postgres://postgres:root@localhost:5432/node_postgres
-      JWT_SECRET: my_secret_key
-      PORT: 3000
     ports:
-      - ":3000"
+      - "5000:5000"
     depends_on:
       - db
+    environment:
+      DATABASE_URL: "postgres://postgres:root@db:5000/node_postgres"
+      JWT_SECRET: "your_secret_key"
+    volumes:
+      - .:/usr/src/app
+    command: sh -c "npm install && npx prisma migrate deploy && npm start"
 
 volumes:
-  db_data:
+  pgdata:

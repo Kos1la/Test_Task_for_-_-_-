@@ -1,27 +1,34 @@
 import express from "express";
-import dotenv from 'dotenv'
-import cors from 'cors'
-import authRoutes from './routes/authRoutes.js'
-import bodyParser from "body-parser";
+import dotenv from 'dotenv';
+import cors from 'cors';
+import authRoutes from './routes/authRoutes.js';
+import prisma from "./prismaClient.js";
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
-const PORT = process.env.PORT || 3000
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(bodyParser.json())
-app.use(cors)
-app.use(express.json())
+app.use(cors()); // Вызываем cors как функцию
 
-app.use('/auth', authRoutes)
-// app.use('/tasks',)
+app.use(express.json());
+app.use('/auth', authRoutes);
+
+app.get('/test-db', async (req, res) => {
+    try {
+        const users = await prisma.user.findMany();
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'Database connection error', error });
+    }
+}); // test
 
 async function startApp() {
     try {
-        await app.listen(PORT,() => console.log(`Server started on ${PORT} port`))
-    } catch (e){
-        console.log(e)
+        await app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+    } catch (e) {
+        console.error('Error starting server:', e); // Используем console.error для вывода ошибок
     }
 }
 
-startApp()
+startApp();

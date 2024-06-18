@@ -1,20 +1,23 @@
-# Use the official Node.js image
-FROM node:18
+# Use an official Node.js runtime as a parent image
+FROM node:20
 
-# Create and change to the app directory
+# Set the working directory
 WORKDIR /usr/src/app
 
-# Copy application dependency manifests to the container image
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install production dependencies
+# Install dependencies
 RUN npm install
 
-# Copy local code to the container image
+# Copy the rest of the application code
 COPY . .
 
-# Generate Prisma Client
+# Generate Prisma client
 RUN npx prisma generate
 
-# Start the application
-CMD [ "npm", "start" ]
+# Expose port
+EXPOSE 5000
+
+# Command to run the app
+CMD ["npm", "start"]
