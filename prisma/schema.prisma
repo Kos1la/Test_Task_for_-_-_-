@@ -1,6 +1,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -9,8 +10,8 @@ datasource db {
 }
 
 model User {
-  id       Int    @default(autoincrement()) @id
-  email    String @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
   password String
   tasks    Task[]
 }
@@ -23,6 +24,7 @@ model Task {
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
   user_id     Int
-  user        User     @relation(fields: [user_id], references: [id]) // user_id - внешний ключ
+  user        User     @relation(fields: [user_id], references: [id])
 }
+
 

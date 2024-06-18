@@ -1,26 +1,23 @@
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import prisma from "../prismaClient.js";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import prisma from '../prismaClient.js';
+
+const secretKey = 'your_secret_key';  // Замените на безопасный ключ и храните его в переменной окружения
 
 export const register = async (req, res) => {
     try {
-        const {email,password} = req.body
-        const hashedPassword = await bcrypt.hash(password,8)
-        const user = await prisma.user.create({data: {email,password:hashedPassword}})
-        res.status(201).json({message:`${user} registered successfully`})
-        console.log(user)
+        console.log('hi')
     } catch (e) {
-    console.log(e)
+        console.log(e);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
 
-// export const login = async (req,res) => {
-//     try {
-//
-//     } catch (e) {
-//         console.log(e)
-//     }
-// }
+export const login = async (req, res) => {
+    try {
 
-
-
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
