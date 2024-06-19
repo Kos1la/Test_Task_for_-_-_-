@@ -1,10 +1,15 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import prisma from '../prismaClient.js';  // Убедитесь, что путь правильный
+import prisma from '../prismaClient.js';
+import { validationResult } from 'express-validator';
 
 const secretKey = process.env.JWT_SECRET;
 
 export const register = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     try {
         const { email, password } = req.body;
         const existingUser = await prisma.user.findUnique({

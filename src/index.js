@@ -2,7 +2,6 @@ import express from "express";
 import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
-import prisma from "./prismaClient.js";
 import taskRoutes from "./routes/taskRoutes.js";
 
 dotenv.config();
@@ -16,14 +15,7 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/tasks', taskRoutes)
 
-app.get('/test-db', async (req, res) => {
-    try {
-        const users = await prisma.user.findMany();
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ message: 'Database connection error', error });
-    }
-}); // test
+
 
 async function startApp() {
     try {
