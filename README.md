@@ -11,8 +11,7 @@ git clone https://github.com/Kos1la/Test_Task_for_RevisorVision |
 cd Test_Task_for_RevisorVision |
 npm install | 
 create .env |
-add to file .env | 
-
+add to file .env  - 
 DATABASE_URL="postgres://postgres:root@db:5432/node_postgres"
 JWT_SECRET=1Afd4231dad
 PORT = 5000
